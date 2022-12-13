@@ -1,0 +1,103 @@
+/*
+blokken: bisque;
+Randen van de blokken: orange;
+Lettertype: Helvetica, arial;
+Overlay: rgb(92,148,13,0.4);
+Overlay rand : rgb(92,148,13);
+Hover: beige;
+*/
+*
+{
+    font-family: Helvetica,Arial;
+}
+@media (min-width:800px) {
+.wrapper{
+    width: 800px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-areas: 
+    "hd hd hd hd hd"
+    "div1 div2 div3 sd sd"
+    "div4 div5 div6 sd sd"
+    "div7 div8 div9 sd sd"
+    "ft ft ft ft ft";
+    text-align: center;
+}
+}
+
+.items{
+    border-radius: 5px;
+    border: orange 3px solid;
+    background-color: #ffe4c4;
+    margin: 5px;
+    padding: 40px;
+    
+}
+.header{
+    grid-area: hd;
+    padding: 10px;
+    margin: 4px;
+    background-color: bisque;
+    border-radius: 5px;
+    border: orange 3px solid;
+
+}
+
+.block-1 {
+    grid-area: div1;
+
+}
+.block-2{
+    grid-area: div2;
+}
+.block-3{
+    grid-area: div3;
+}
+.block-4{
+    grid-area: div4;
+}
+.block-5{
+    grid-area: div5;
+}
+.block-6{
+    grid-area: div6;
+}
+.block-7{
+    grid-area: div7;
+}
+.block-8{
+    grid-area: div8;
+}
+.block-9{
+    grid-area: div9;
+}
+
+
+.aside{
+    grid-area: sd;
+    background-color: #ffe4c4;
+    margin: 5px;
+    border-radius: 5px;
+    border: orange 3px solid;
+}
+
+.footer{
+    grid-area: ft;
+    padding: 10px;
+    margin: 4px;
+    background-color: #ffe4c4;
+    border-radius: 5px;
+    border: orange 3px solid;
+}
+
+.overlay{
+    z-index: 10;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 5;
+    border-radius: 8px;
+    border: rgb(92, 148, 13) solid 2px;
+    background-color: rgb(92, 148, 13,0.4);
+}
