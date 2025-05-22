@@ -168,6 +168,31 @@ final class HomeController extends AbstractController
         ]);
     }
 }
+<!-- new patient template -->
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SpecialistController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Maak een afspraak met dr. {{ app.user.firstName }} {{ app.user.lastName }}</h1>
+
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        {{ form_row(form.date) }}
+        {{ form_row(form.time) }}
+{#        {{ form_row(form.patient) }}#}
+        {{ form_row(form.subject) }}
+        {{ form_row(form.problems) }}
+        {{ form_row(form.discussed) }}
+        {#        {{ form_row(form.insert) }}#}
+        {#        <a href="{{ path('app_specilit_home') }}" class="btn btn-primary">save</a>#}
+        {{ form_rest(form) }}
+
+        {{ form_end(form) }}
+        <a href="{{ path('app_specialist_home') }}" class="btn btn-secondary mt-3">Back</a>
+    </div>
+
+{% endblock %}
 
 <!-- Patient Role Twig template index -->
 {% extends 'base.html.twig' %}
