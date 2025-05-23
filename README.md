@@ -1,3 +1,86 @@
+2. كود كامل لتغيير كلمة السر:
+
+(بافتراض إن المستخدم مسجّل دخول، ونريده يغيّر كلمة سره من داخل حسابه
+ChangePasswordType.php
+// src/Form/ChangePasswordType.php
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+
+class ChangePasswordType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('oldPassword', PasswordType::class, ['label' => 'Current Password'])
+            ->add('newPassword', PasswordType::class, ['label' => 'New Password']);
+    }
+}
+SecurityController.php أو أي Controller آخر:
+#[Route('/change-password', name: 'app_change_password')]
+public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response
+{
+    $user = $this->getUser(); // المستخدم الحالي
+
+    $form = $this->createForm(ChangePasswordType::class);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $data = $form->getData();
+
+        // تحقق من كلمة السر القديمة
+        if (!$passwordHasher->isPasswordValid($user, $data['oldPassword'])) {
+            $this->addFlash('error', 'Old password is incorrect');
+            return $this->redirectToRoute('app_change_password');
+        }
+
+        // غيّر كلمة السر
+        $hashedPassword = $passwordHasher->hashPassword($user, $data['newPassword']);
+        $user->setPassword($hashedPassword);
+        $em->flush();
+
+        $this->addFlash('success', 'Password updated successfully');
+        return $this->redirectToRoute('home');
+    }
+
+    return $this->render('security/change_password.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
+
+
+#[Route('/change-password', name: 'app_change_password')]
+public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response
+{
+    $user = $this->getUser(); // المستخدم الحالي
+
+    $form = $this->createForm(ChangePasswordType::class);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $data = $form->getData();
+
+        // تحقق من كلمة السر القديمة
+        if (!$passwordHasher->isPasswordValid($user, $data['oldPassword'])) {
+            $this->addFlash('error', 'Old password is incorrect');
+            return $this->redirectToRoute('app_change_password');
+        }
+
+        // غيّر كلمة السر
+        $hashedPassword = $passwordHasher->hashPassword($user, $data['newPassword']);
+        $user->setPassword($hashedPassword);
+        $em->flush();
+
+        $this->addFlash('success', 'Password updated successfully');
+        return $this->redirectToRoute('home');
+    }
+
+    return $this->render('security/change_password.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
+
+
 <?php
 
 namespace App\Controller;
